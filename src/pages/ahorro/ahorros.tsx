@@ -135,7 +135,7 @@ const AhorroApp = () => {
                     <strong>Tipo:</strong> {gasto.tipo}
                   </p>
                   <p>
-                    <strong>Porcentaje del saldo Consumido:</strong>{" "}
+                    <strong>Porcentaje del saldo Consumido.:</strong>{" "}
                     {((gasto.cantidad / saldoInicial) * 100).toFixed(2)}%
                   </p>
                   <hr />
