@@ -4,20 +4,20 @@ import { SearchOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons';
 import Sidebar from './sidebar';   
  
 interface NavbarProps {
-    onToggleSidebar: () => void;
+    barraLateral: () => void;
   }
 
 const { Search } = Input;
 
-const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) =>{
-  const [isSidebarOpen,] = useState(false);
+const Navbar: React.FC<NavbarProps> = ({ barraLateral: onBarraLateral }) =>{
+  const [abrirSidebar,] = useState(false);
 
 
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: '#141a41' }}>
         <div className="container">
-          <button className="navbar-toggler-left" type="button" onClick={onToggleSidebar}  style={{ backgroundColor: '#141a41', border: 'none' }}>
+          <button className="navbar-toggler-left" type="button" onClick={onBarraLateral}  style={{ backgroundColor: '#141a41', border: 'none' }}>
             <MenuOutlined style={{ color: 'white' }} /> <span style={{ color: 'white', marginLeft: '5px' }}>Menu</span>
           </button>
           <ul className="navbar-nav ml-auto d-flex ">
@@ -28,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) =>{
           </ul>
         </div>
       </nav>
-      <Sidebar isOpen={isSidebarOpen} />
+      <Sidebar isOpen={abrirSidebar} />
     </>
   );
 };
