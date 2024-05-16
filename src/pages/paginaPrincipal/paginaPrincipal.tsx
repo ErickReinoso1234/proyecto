@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PaginaPrincipal: React.FC = () => {
@@ -10,12 +11,12 @@ const PaginaPrincipal: React.FC = () => {
         </div>
         <div className="col-md-4">
           <div className="text-right">
-            <p className="text-white">Login</p>
+          <Link to="/login" className="text-white">Login</Link>
           </div>
         </div>
         <div className="col-md-4">
           <div className="text-left">
-            <p className="text-white">Registrarse</p>
+            <Link to="/register" className="text-white">Registrarse</Link>
           </div>
         </div>
       </div>

@@ -61,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
         </SubMenu>
       ) : (
         <Menu.Item key={item.key} icon={item.icon}>
-          <Link to={item.link || ''}>{item.label}</Link> {/* Cambiado de item.link a item.link || '' */}
+          <Link to={item.link || ''}>{item.label}</Link>
         </Menu.Item>
       )
     );

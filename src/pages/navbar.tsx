@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, Button } from 'antd';
 import { SearchOutlined, UserOutlined, MenuOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
+import Sidebar from './sidebar';   
  
 interface NavbarProps {
   barraLateral: () => void;
@@ -12,17 +13,18 @@ const { Search } = Input;
 
 const Navbar: React.FC<NavbarProps> = ({ barraLateral, handleCerrarSesion }) => {
   const location = useLocation();
+  const [abrirSidebar] = useState(false);
 
   // Verifica si la ruta actual es "/"
-  const isHome = location.pathname === '/';
+  const hideNavbar = ["/login", "/register", "/"].includes(location.pathname);;
 
   // Si la ruta es "/", no mostrar el Navbar
-  if (isHome) {
+  if (hideNavbar) {
     return null;
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: '#141a41' }}>
+    <><nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: '#141a41' }}>
       <div className="container">
         <button className="navbar-toggler-left" type="button" onClick={barraLateral} style={{ backgroundColor: '#141a41', border: 'none' }}>
           <MenuOutlined style={{ color: 'white' }} /> <span style={{ color: 'white', marginLeft: '5px' }}>Menu</span>
@@ -39,7 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({ barraLateral, handleCerrarSesion }) => 
           </li>
         </ul>
       </div>
-    </nav>
+    </nav><Sidebar isOpen={abrirSidebar} /></>
   );
 };
 
