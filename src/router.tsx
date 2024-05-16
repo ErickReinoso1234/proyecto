@@ -6,6 +6,7 @@ import Error404Page from "./pages/error";
 import InicioApp from "./pages/paginaIncio/inicio";
 import Historial from "./pages/historial";
 import PerfilUsuario from "./pages/perfilUsuario/perfil";
+import LoginForm from "./pages/login";
 
 interface AppRouterProps {
   abrirSidebar: boolean;
@@ -14,14 +15,16 @@ interface AppRouterProps {
 export const AppRouter: React.FC<AppRouterProps> = ({ abrirSidebar: isSidebarOpen }) => {
   return (
     <div style={{ marginLeft: isSidebarOpen ? '250px' : '0', transition: 'margin .3s' }}>
-      <Routes>
-        <Route path="/" element={<PaginaPrincipal />} />
-        <Route path="/perfil" element={<PerfilUsuario />} />
-        <Route path="/ahorros" element={<AhorroApp />} />
-        <Route path="/historial" element={<Historial />} />
-        <Route path="/inicio" element={<InicioApp />} />
-        <Route path="*" element={<Error404Page />} />
-      </Routes>
+       <Routes>
+      <Route path="/" element={<PaginaPrincipal />} />
+      <Route path="/login" element={<LoginForm />} />
+      <Route path="/perfil" element={<PerfilUsuario />} />
+      <Route path="/ahorros" element={<AhorroApp />} />
+      <Route path="/historial" element={<Historial />} />
+      <Route path="/inicio" element={<InicioApp />} />
+      <Route path="*" element={<Error404Page />} />
+      <Route path="/login" element={<LoginForm />} />
+    </Routes>
     </div>
   );
 };
