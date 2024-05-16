@@ -1,8 +1,8 @@
 import React from 'react';
 
-const perfilUsuario: React.FC = () =>{
+const perfilUsuarios: React.FC = () =>{
    return(
        <div></div>
    )
 }
-export default perfilUsuario;
+export default perfilUsuarios;
