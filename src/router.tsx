@@ -4,6 +4,7 @@ import AhorroApp from "./pages/ahorro/ahorros";
 import PaginaPrincipal from "./pages/paginaPrincipal/paginaPrincipal";
 import Error404Page from "./pages/error";
 import Historial from "./pages/historial";
+import LoginForm from "./pages/login/login";
 
 export const AppRouter: React.FC<{}> = () => {
   return (
@@ -12,6 +13,7 @@ export const AppRouter: React.FC<{}> = () => {
       <Route path="/ahorros" element={<AhorroApp />} />
       <Route path="/historial" element={<Historial />} />
       <Route path="*" element={<Error404Page />} />
+      <Route path="/login" element={<LoginForm />} />
     </Routes>
   );
 };
