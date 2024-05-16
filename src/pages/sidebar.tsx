@@ -13,8 +13,8 @@ interface MenuItem {
   key: string;
   label: string;
   icon: React.ReactNode;
-  link?: string; // Cambiado de To a string | undefined
-  to?: string;   // Cambiado de To a string | undefined
+  link?: string;
+  to?: string;
   children?: MenuItem[];
 }
 
