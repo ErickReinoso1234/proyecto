@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Input, Button } from 'antd';
 import { SearchOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons';
 import Sidebar from './sidebar';   
+import { Link } from 'react-router-dom';
  
 interface NavbarProps {
     barraLateral: () => void;
@@ -10,7 +11,7 @@ interface NavbarProps {
 const { Search } = Input;
 
 const Navbar: React.FC<NavbarProps> = ({ barraLateral: onBarraLateral }) =>{
-  const [abrirSidebar,] = useState(false);
+  const [abrirSidebar] = useState(false);
 
 
   return (
@@ -23,7 +24,9 @@ const Navbar: React.FC<NavbarProps> = ({ barraLateral: onBarraLateral }) =>{
           <ul className="navbar-nav ml-auto d-flex ">
           <Search placeholder="Buscar..." enterButton={<SearchOutlined />} style={{ width: '250px', marginRight: '10px' }} />
             <li className="nav-item">
-              <Button type="link" icon={<UserOutlined />} style={{ color: 'white' }}> <span style={{ color: 'white' }}>Perfil Usuario</span></Button>
+            <Link to="/perfil">
+                <Button type="link" icon={<UserOutlined />} style={{ color: 'white' }}> <span style={{ color: 'white' }}>Perfil Usuario</span></Button>
+            </Link>
             </li>
           </ul>
         </div>

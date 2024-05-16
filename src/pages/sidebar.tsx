@@ -9,30 +9,71 @@ interface SidebarProps {
   isOpen: boolean;
 }
 
+interface MenuItem {
+  key: string;
+  label: string;
+  icon: React.ReactNode;
+  link?: string; // Cambiado de To a string | undefined
+  to?: string;   // Cambiado de To a string | undefined
+  children?: MenuItem[];
+}
+
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
+  const items: MenuItem[] = [
+    {
+      key: '1', label: 'Inicio', icon: <HomeOutlined />, link: '/inicio',
+    },
+    {
+      key: '2', label: 'Ahorros', icon: <FundOutlined />, link: '/ahorros',
+    },
+    {
+      key: '3', label: 'Dashboard', icon: <DashboardOutlined />, link: '/dashboard',
+    },
+    {
+      key: '4', label: 'Historial', icon: <HistoryOutlined />, link: '/historial',
+    },
+    {
+      key: 'sub1',
+      label: 'PDF',
+      icon: <FilePdfOutlined />,
+      children: [
+        {
+          key: '6', label: 'PDF 1', link: '/pdf1',
+          icon: undefined,
+        },
+        {
+          key: '7', label: 'PDF 2', link: '/pdf2',
+          icon: undefined,
+        },
+        {
+          key: '8', label: 'PDF 3', link: '/pdf3',
+          icon: undefined,
+        },
+      ],
+    },
+  ];
+
+  const renderMenuItems = (items: MenuItem[]) => {
+    return items.map((item) =>
+      item.children ? (
+        <SubMenu key={item.key} icon={item.icon} title={item.label}>
+          {renderMenuItems(item.children)}
+        </SubMenu>
+      ) : (
+        <Menu.Item key={item.key} icon={item.icon}>
+          <Link to={item.link || ''}>{item.label}</Link> {/* Cambiado de item.link a item.link || '' */}
+        </Menu.Item>
+      )
+    );
+  };
+
   return (
     <Menu
       theme="dark"
       mode="inline"
       style={{ width: 250, height: '100vh', paddingTop: '56px', display: isOpen ? 'block' : 'none' }}
-    > 
-      <Menu.Item key="1" icon={<HomeOutlined />}>
-        <Link to="/inicio">Inicio</Link>
-      </Menu.Item>
-      <Menu.Item key="2" icon={<FundOutlined />}>
-        <Link to="/ahorros">Ahorros</Link>
-      </Menu.Item>
-      <Menu.Item key="3" icon={<DashboardOutlined />}>
-        <Link to="/dashboard">Dashboard</Link>
-      </Menu.Item>
-      <Menu.Item key="4" icon={<HistoryOutlined />}>
-        <Link to="/historial">Historial</Link>
-      </Menu.Item>
-      <SubMenu key="sub1" icon={<FilePdfOutlined />} title="PDF">
-        <Menu.Item key="6"><Link to="/pdf1">PDF 1</Link></Menu.Item>
-        <Menu.Item key="7"><Link to="/pdf2">PDF 2</Link></Menu.Item>
-        <Menu.Item key="8"><Link to="/pdf3">PDF 3</Link></Menu.Item>
-      </SubMenu>
+    >
+      {renderMenuItems(items)}
     </Menu>
   );
 };

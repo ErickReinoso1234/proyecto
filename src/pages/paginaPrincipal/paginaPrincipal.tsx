@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PaginaPrincipal: React.FC = () => {
   return (
-    <div className="container mt-5">
+    <div className="container mt-4">
       <div className="row align-items-center">
         <div className="col-md-4">
           <img src="https://th.bing.com/th/id/OIG2.Ca4kbNPZdUP37sJLUw5t?w=270&h=270&c=6&r=0&o=5&pid=ImgGn" className="img-fluid logo" alt="Logo" />
