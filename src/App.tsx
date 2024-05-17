@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppRouter } from './router';
 import Navbar from './pages/navbar';
 import Sidebar from './pages/sidebar';
+import Footer from './pages/footer/footer';
 
 const App: React.FC = () => {
   const [abrirSidebar, setAbrirSidebar] = useState(false);
@@ -21,14 +22,14 @@ const App: React.FC = () => {
     window.location.href = "/";
   };
 
-  // Si el usuario ha cerrado la sesión, no muestra ni el Navbar ni el Sidebar
+  // Si el usuario ha cerrado la sesión, no muestra ni el Navbar ni el Sidebar ni el Footer
   if (cerrarSesion) {
     return null;
   }
 
   return (
     <BrowserRouter>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Navbar barraLateral={controlSidebar} handleCerrarSesion={handleCerrarSesion} />
         <div style={{ display: 'flex', flex: 1 }}>
           <Sidebar isOpen={abrirSidebar} />
@@ -36,6 +37,7 @@ const App: React.FC = () => {
             <AppRouter abrirSidebar={false} />
           </div>
         </div>
+        {window.location.pathname === '/inicio' && <Footer />} 
       </div>
     </BrowserRouter>
   );
