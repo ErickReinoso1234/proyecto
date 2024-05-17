@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, message, Button } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -65,6 +65,7 @@ const AhorroApp = () => {
     setSaldoInicial(saldoInicial - cantidadGasto);
 
     setGastos([...gastos, nuevoGasto]);
+    setSaldoInicial(saldoInicial - cantidadGasto); // Reducir el saldo inicial
     setNombreGasto("");
     setCantidadGasto(0);
     setTipoGasto("fijo");

@@ -6,7 +6,7 @@ const LoginForm: React.FC = () => {
     <div className="container mt-8">
       <div className="row">
         <div className="col-md-6">
-          <img src="https://th.bing.com/th/id/OIG3.J7La_qQtQ0Yo2hcZYHob?pid=ImgGn" className="img-fluid mt-5 rounded" alt="dad" />
+          <img src="https://th.bing.com/th/id/OIG3.a2ieBkgUqi7HJAAwybae?w=1024&h=1024&rs=1&pid=ImgDetMain" className="img-fluid mt-5 rounded" alt="dad" />
         </div>
         <div className="col-md-6 my-auto"> 
           <div className="login-form mt-5"> 

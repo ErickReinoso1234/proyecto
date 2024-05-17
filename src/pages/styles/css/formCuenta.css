@@ -1,0 +1,16 @@
+.contenedor-formcuenta {
+    
+    height: 100vh;
+}
+
+.register {
+    width: 550px;
+    border-radius: 20px;
+    border: 5px solid #1f2127;
+    background: linear-gradient(#3d4e6e, rgb(47, 65, 63));
+}
+
+.columna {
+    padding: auto;
+}
+
