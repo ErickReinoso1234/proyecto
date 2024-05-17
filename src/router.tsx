@@ -8,7 +8,8 @@ import Historial from "./pages/historial";
 import PerfilUsuario from "./pages/perfilUsuario/perfil";
 import LoginForm from "./pages/login";
 import InicioApp from "./pages/paginaIncio/inicio";
-import Footer from "./pages/footer/footer";
+import Page from "./page";
+
 
 interface AppRouterProps {
   abrirSidebar: boolean;
@@ -27,6 +28,7 @@ export const AppRouter: React.FC<AppRouterProps> = ({ abrirSidebar: isSidebarOpe
       <Route path="*" element={<Error404Page />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<Formcuenta />} />
+      <Route path="/dashboard" element={<Page />}/>
     </Routes>
     </div>
   );

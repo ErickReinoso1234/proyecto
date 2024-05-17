@@ -1,4 +1,3 @@
-import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,9 +26,9 @@ const Footer = () => {
           <div className="col-md-4 mb-4">
             <h6 className="mb-4">Servicios</h6>
             <ul className="list-unstyled">
-              <li><a href="#" className="text-white">Gestión de gastos</a></li>
-              <li><a href="#" className="text-white">Categorización de gastos</a></li>
-              <li><a href="#" className="text-white">Análisis financiero</a></li>
+            <li><button className="text-white" onClick={() => { /* acción */ }}>Gestión de gastos</button></li>
+            <li><button className="text-white" onClick={() => { /* acción */ }}>Categorización de gastos</button></li>
+            <li><button className="text-white" onClick={() => { /* acción */ }}>Análisis financiero</button></li>
             </ul>
           </div>
           <div className="col-md-4 mb-4">
