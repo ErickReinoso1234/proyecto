@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, message, Button } from "antd";
 import { useNavigate } from "react-router-dom";
-
+import PDFGenerator from "../pdf/pdf";
 interface Gasto {
   nombre: string;
   cantidad: number;
@@ -240,6 +240,8 @@ const AhorroApp = () => {
             <Button type="primary" onClick={handleHistorial}>
               Ver Historial
             </Button>
+            <PDFGenerator gastos={gastos} /> 
+          
           </Card>
         </div>
       </div>
