@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Card, message, Button } from "antd";
+import { Card, message, Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 
 interface Gasto {
@@ -30,6 +30,9 @@ const AhorroApp = () => {
     const saved = localStorage.getItem("gastoEmergencia");
     return saved ? parseInt(saved) : 0;
   });
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [gastoActual, setGastoActual] = useState<Gasto | null>(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +53,7 @@ const AhorroApp = () => {
 
   const handleAgregarGasto = () => {
     const totalDisponible =
-      saldoInicial + otrosIngresos - calcularTotalGastos() - gastoEmergencia;
+      saldoInicial - calcularTotalGastos() - gastoEmergencia;
     if (cantidadGasto > totalDisponible) {
       message.error("¡Tus ingresos no son suficientes para este gasto!");
       return;
@@ -62,17 +65,13 @@ const AhorroApp = () => {
       tipo: tipoGasto,
       fecha: new Date().toLocaleDateString(),
     };
-    setSaldoInicial(saldoInicial - cantidadGasto);
 
-    setGastos([...gastos, nuevoGasto]);
-    setSaldoInicial(saldoInicial - cantidadGasto); // Reducir el saldo inicial
-    setNombreGasto("");
-    setCantidadGasto(0);
-    setTipoGasto("fijo");
+    setGastoActual(nuevoGasto);
+    setIsModalVisible(true);
   };
 
   const handleRegistrarIngresos = () => {
-    setSaldoInicial(saldoInicial + otrosIngresos);
+    setSaldoInicial((prevSaldo) => prevSaldo + otrosIngresos);
     setOtrosIngresos(0);
   };
 
@@ -86,20 +85,34 @@ const AhorroApp = () => {
   };
 
   const calcularPorcentajeConsumido = () => {
-    const totalIngresos = saldoInicial + otrosIngresos;
-    const porcentajeConsumido =
-      ((totalIngresos - calcularTotalGastos() - gastoEmergencia) /
-        totalIngresos) *
-      100;
+    const totalIngresos = saldoInicial;
+    const saldoRestante = totalIngresos - calcularTotalGastos() - gastoEmergencia;
+    const porcentajeConsumido = ((totalIngresos - saldoRestante) / totalIngresos) * 100;
     return porcentajeConsumido.toFixed(2);
   };
 
   const calcularTotalGastos = () => {
-    return gastos.reduce((total, gasto) => total + gasto.cantidad, 0);
+    const totalGastos = gastos.reduce((total, gasto) => total + gasto.cantidad, 0) + gastoEmergencia;
+    return totalGastos;
+  };
+
+  const calcularSaldoRestante = () => {
+    const totalIngresos = saldoInicial;
+    return totalIngresos - calcularTotalGastos() - gastoEmergencia;
   };
 
   const handleHistorial = () => {
-    navigate("/historial", { state: { gastos } });
+    navigate("/historial", {
+      state: {
+        gastos,
+        saldoRestante: calcularSaldoRestante(),
+        gastoEmergencia, // Agrega el gasto de emergencia al estado que se pasa al historial
+      },
+    });
+  };
+
+  const calcularAhorro = () => {
+    return (saldoInicial * 0.1).toFixed(2);
   };
 
   return (
@@ -188,54 +201,30 @@ const AhorroApp = () => {
                 onChange={(e) => setGastoEmergencia(parseInt(e.target.value))}
               />
             </div>
-            <button
-              className="btn btn-primary mb-3"
-              onClick={handleAgregarGasto}
-            >
-              Ingresar tu gasto
-            </button>
-            <button className="btn btn-danger" onClick={handleRestablecerDatos}>
-              Restablecer datos
-            </button>
+            <div className="d-flex justify-content-between">
+              <button
+                className="btn btn-primary mb-3"
+                onClick={handleAgregarGasto}
+              >
+                Ingresar tu gasto
+              </button>
+              <button
+                className="btn btn-danger mb-3"
+                onClick={handleRestablecerDatos}
+              >
+                Restablecer datos
+              </button>
+            </div>
           </Card>
         </div>
         <div className="col-md-6">
-          <Card title="Detalles de los Gastos">
-            <div className="mb-3">
-              <p>
-                <strong>Saldo Restante:</strong> $
-                {saldoInicial +
-                  otrosIngresos -
-                  calcularTotalGastos() -
-                  gastoEmergencia}
-              </p>
-              <p>
-                <strong>Porcentaje de Saldo Restante:</strong>{" "}
-                {calcularPorcentajeConsumido()}%
-              </p>
-              {gastos.map((gasto, index) => (
-                <div key={index}>
-                  <h4>{gasto.nombre}</h4>
-                  <p>
-                    <strong>Cantidad:</strong> ${gasto.cantidad}
-                  </p>
-                  <p>
-                    <strong>Tipo:</strong> {gasto.tipo}
-                  </p>
-                  <p>
-                    <strong>Fecha:</strong> {gasto.fecha}
-                  </p>
-                  <p>
-                    <strong>Porcentaje del saldo Consumido:</strong>{" "}
-                    {(
-                      (gasto.cantidad / (saldoInicial + otrosIngresos)) *
-                      100
-                    ).toFixed(2)}
-                    %
-                  </p>
-                  <hr />
-                </div>
-              ))}
+          <Card>
+            <div>
+              <p>Total Gastos Registrados:</p>
+              <p>Saldo inicial: <strong>${saldoInicial}</strong></p>
+              <p>Ahorro (10%): <strong>${calcularAhorro()}</strong></p>
+              <p>Porcentaje consumido {calcularPorcentajeConsumido()}%</p>
+              <p>Saldo actual: <strong>${calcularSaldoRestante()}</strong></p>
             </div>
             <Button type="primary" onClick={handleHistorial}>
               Ver Historial
@@ -243,7 +232,32 @@ const AhorroApp = () => {
           </Card>
         </div>
       </div>
-    </div>
+      <Modal
+        title="Detalles del Gasto"
+        open={isModalVisible}
+        onOk={() => {
+          setGastos([...gastos, gastoActual!]);
+          setNombreGasto("");
+          setCantidadGasto(0);
+          setTipoGasto("fijo");
+          setIsModalVisible(false);
+        }}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        {gastoActual && (
+          <div>
+            <p><strong>Nombre del gasto:</strong> {gastoActual.nombre}</p>
+            <p><strong>Gastos generales:</strong> ${gastoActual.cantidad}</p>
+            {gastoEmergencia > 0 && (
+              <p><strong>Gasto de Emergencia:</strong> ${gastoEmergencia}</p>
+            )}
+            <p><strong>Tipo de gasto:</strong> {gastoActual.tipo}</p>
+            <p><strong>Fecha de emición del gasto:</strong> {gastoActual.fecha}</p>
+            <p><strong>TOTAL DE TUS GASTOS:</strong> ${(gastoActual.cantidad + gastoEmergencia).toString()}</p>
+          </div>
+        )}
+      </Modal>
+    </div>  
   );
 };
 
