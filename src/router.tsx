@@ -8,7 +8,7 @@ import Historial from "./pages/historial";
 import PerfilUsuario from "./pages/perfilUsuario/perfil";
 import LoginForm from "./pages/login";
 import InicioApp from "./pages/paginaIncio/inicio";
-import Page from "./page";
+import Dashboard from "./pages/dashboard/dashboards";
 
 
 interface AppRouterProps {
@@ -18,7 +18,7 @@ interface AppRouterProps {
 export const AppRouter: React.FC<AppRouterProps> = ({ abrirSidebar: isSidebarOpen }) => {
   return (
     <div style={{ marginLeft: isSidebarOpen ? '250px' : '0', transition: 'margin .3s' }}>
-       <Routes>
+      <Routes>
       <Route path="/" element={<PaginaPrincipal />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/perfil" element={<PerfilUsuario />} />
@@ -28,7 +28,7 @@ export const AppRouter: React.FC<AppRouterProps> = ({ abrirSidebar: isSidebarOpe
       <Route path="*" element={<Error404Page />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<Formcuenta />} />
-      <Route path="/dashboard" element={<Page />}/>
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
     </div>
   );

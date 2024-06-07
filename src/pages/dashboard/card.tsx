@@ -1,15 +1,24 @@
-import { Card, Metric, Text, Flex } from '@tremor/react';
+import React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
-const CardBase= () => {
-    return (
-        <Card style={{color:'white'}}>
-            <text>sales</text>
-            <Metric>$ 67</Metric>
-            <Flex>
-                <Text>32% of anual target</Text>
-                <Text>$ 33.33</Text>
-            </Flex>
-        </Card>
-    )
+interface MyCardProps {
+  title: string;
+  amount: number;
 }
-export default CardBase;
+
+const MyCard: React.FC<MyCardProps> = ({ title, amount }) => (
+  <Card>
+    <CardContent>
+      <Typography variant="h5" component="div">
+        {title}
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        ${amount}
+      </Typography>
+    </CardContent>
+  </Card>
+);
+
+export default MyCard;
