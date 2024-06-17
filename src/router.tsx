@@ -9,6 +9,7 @@ import PerfilUsuario from "./pages/perfilUsuario/perfil";
 import LoginForm from "./pages/login";
 import InicioApp from "./pages/paginaIncio/inicio";
 import Page from "./page";
+import { Gastos } from "./pages/control/controlgasto";
 
 
 interface AppRouterProps {
@@ -25,10 +26,11 @@ export const AppRouter: React.FC<AppRouterProps> = ({ abrirSidebar: isSidebarOpe
       <Route path="/ahorros" element={<AhorroApp />} />
       <Route path="/historial" element={<Historial />} />
       <Route path="/inicio" element={<InicioApp />} />
-      <Route path="*" element={<Error404Page />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<Formcuenta />} />
       <Route path="/dashboard" element={<Page />}/>
+      <Route path="/control" element={<Gastos />} />
+      <Route path="*" element={<Error404Page />} />
     </Routes>
     </div>
   );

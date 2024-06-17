@@ -4,6 +4,10 @@ import { AppRouter } from './router';
 import Navbar from './pages/navbar';
 import Sidebar from './pages/sidebar';
 import Footer from './pages/footer/footer';
+import { ExpenseProvider } from './pages/control/expensecontext';
+import moment from 'moment';
+
+moment.tz.setDefault('America/Guayaquil');
 
 const App: React.FC = () => {
   const [abrirSidebar, setAbrirSidebar] = useState(false);
@@ -34,7 +38,9 @@ const App: React.FC = () => {
         <div style={{ display: 'flex', flex: 1 }}>
           <Sidebar isOpen={abrirSidebar} />
           <div style={{ flex: 1, padding: '20px' }}>
+          <ExpenseProvider>
             <AppRouter abrirSidebar={false} />
+          </ExpenseProvider>
           </div>
         </div>
         {window.location.pathname === '/inicio' && <Footer />} 

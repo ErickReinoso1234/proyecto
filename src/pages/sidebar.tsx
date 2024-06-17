@@ -24,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
       key: '1', label: 'Inicio', icon: <HomeOutlined />, link: '/inicio',
     },
     {
-      key: '2', label: 'Ahorros', icon: <FundOutlined />, link: '/ahorros',
+      key: '2', label: 'Ahorros', icon: <FundOutlined />, link: '/control',
     },
     {
       key: '3', label: 'Dashboard', icon: <DashboardOutlined />, link: '/dashboard',
