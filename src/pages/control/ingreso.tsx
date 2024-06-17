@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, message, Space } from 'antd';
+import { Input, Button} from 'antd';
 import moment from 'moment-timezone';
-import { HourglassOutlined } from '@ant-design/icons'; // Importa el icono de calendario
+import { HourglassOutlined } from '@ant-design/icons';
 
 interface IngresoProps {
-  setIncome: React.Dispatch<React.SetStateAction<number>>;
-  setExtraIncome: React.Dispatch<React.SetStateAction<number>>;
+  setIngreso: React.Dispatch<React.SetStateAction<number>>;
+  setExtraIngreso: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export function Ingreso({ setIncome, setExtraIncome }: IngresoProps) {
-  const [income, setIncomeState] = useState('');
-  const [extraIncome, setExtraIncomeState] = useState('');
+export function Ingreso({ setIngreso, setExtraIngreso }: IngresoProps) {
+  const [ingreso, setIngresoState] = useState('');
+  const [extraIngreso, setExtraIngresos] = useState('');
   const [ingresoMensualActivo, setIngresoMensualActivo] = useState(true);
 
   useEffect(() => {
@@ -28,19 +28,19 @@ export function Ingreso({ setIncome, setExtraIncome }: IngresoProps) {
     }
   }, []);
 
-  const handleSetIncome = () => {
-    setIncome(parseFloat(income));
-    setIncomeState('');
+  const manejoIngresos = () => {
+    setIngreso(parseFloat(ingreso));
+    setIngresoState('');
     localStorage.setItem('lastIncomeDate', moment().toISOString()); // Guardar la fecha del último ingreso mensual
     setIngresoMensualActivo(false); // Bloquear el ingreso mensual después del primer ingreso
   };
 
-  const handleSetExtraIncome = () => {
-    setExtraIncome(parseFloat(extraIncome));
-    setExtraIncomeState('');
+  const manejoIngresosExtras = () => {
+    setExtraIngreso(prevExtra => prevExtra + parseFloat(extraIngreso));
+    setExtraIngresos('');
   };
 
-  const handleActivarIngresoMensual = () => {
+  const activarIngresoMensual = () => {
     setIngresoMensualActivo(true); // Activar manualmente el ingreso mensual
   };
 
@@ -49,19 +49,19 @@ export function Ingreso({ setIncome, setExtraIncome }: IngresoProps) {
       <h2>Ingresar Ingreso Mensual</h2>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
         <label style={{ marginRight: '8px', color: '#000' }}>Ingreso:</label>
-        <Input type="number" value={income} onChange={(e) => setIncomeState(e.target.value)} style={{ width: '200px' }} disabled={!ingresoMensualActivo} />
+        <Input type="number" value={ingreso} onChange={(e) => setIngresoState(e.target.value)} style={{ width: '200px' }} disabled={!ingresoMensualActivo} />
         {!ingresoMensualActivo && (
-          <Button icon={<HourglassOutlined />} onClick={handleActivarIngresoMensual} style={{ marginLeft: '8px' }}>Activar</Button>
+          <Button icon={<HourglassOutlined />} onClick={activarIngresoMensual} style={{ marginLeft: '8px' }}>Activar</Button>
         )}
       </div>
-      <Button type="primary" onClick={handleSetIncome} disabled={!ingresoMensualActivo}>Establecer Ingreso</Button>
+      <Button type="primary" onClick={manejoIngresos} disabled={!ingresoMensualActivo}>Establecer Ingreso</Button>
 
       <h2 style={{ marginTop: '20px' }}>Ingresar Ingreso Extra</h2>
       <div style={{ marginBottom: '16px' }}>
         <label style={{ marginRight: '8px', color: '#000' }}>Ingreso Extra:</label>
-        <Input type="number" value={extraIncome} onChange={(e) => setExtraIncomeState(e.target.value)} style={{ width: '200px' }} />
+        <Input type="number" value={extraIngreso} onChange={(e) => setExtraIngresos(e.target.value)} style={{ width: '200px' }} />
       </div>
-      <Button type="primary" onClick={handleSetExtraIncome}>Establecer Ingreso Extra</Button>
+      <Button type="primary" onClick={manejoIngresosExtras}>Establecer Ingreso Extra</Button>
     </div>
   );
 }

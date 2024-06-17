@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Input, Button, message } from 'antd';
-import { Expenses } from './types';
+import { Gastos } from './types';
 import moment from 'moment-timezone';
 
 interface GastosVariablesProps {
-  setExpenses: React.Dispatch<React.SetStateAction<Expenses>>;
+  setGastos: React.Dispatch<React.SetStateAction<Gastos>>;
   remainingVariable: number;
 }
 
-export function GastosVariables({ setExpenses, remainingVariable }: GastosVariablesProps) {
+export function GastosVariables({ setGastos, remainingVariable }: GastosVariablesProps) {
   const [name, setName] = useState('');
   const [variable, setVariable] = useState('');
   const [date, setDate] = useState('');
 
-  const handleAddVariableExpense = () => {
+  const controlGastosVariables = () => {
     const amount = parseFloat(variable);
     if (isNaN(amount)) {
       message.error('Por favor ingresa un monto válido para el gasto variable.');
@@ -32,7 +32,7 @@ export function GastosVariables({ setExpenses, remainingVariable }: GastosVariab
       return;
     }
 
-    setExpenses((prev) => ({
+    setGastos((prev) => ({
       ...prev,
       fixed: prev.fixed, // Asegura que los gastos fijos se mantienen igual
       variable: [...prev.variable, { name, amount, date, type: 'Gasto Variable'}],
@@ -57,7 +57,7 @@ export function GastosVariables({ setExpenses, remainingVariable }: GastosVariab
         <label style={{ marginRight: '8px', color: '#000' }}>Fecha:</label>
         <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} style={{ width: '200px' }} />
       </div>
-      <Button type="primary" onClick={handleAddVariableExpense}>Agregar Gasto Variable</Button>
+      <Button type="primary" onClick={controlGastosVariables}>Agregar Gasto Variable</Button>
       <p>Presupuesto restante para gastos variables: {remainingVariable}</p>
     </div>
   );

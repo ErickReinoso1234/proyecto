@@ -1,21 +1,21 @@
 import React, { createContext, useContext, useState } from 'react';
-import { Expenses, Saving } from './types';
+import { Gastos, Ahorro } from './types';
 
 interface ExpenseContextProps {
-  income: number;
-  setIncome: React.Dispatch<React.SetStateAction<number>>;
-  extraIncome: number;
-  setExtraIncome: React.Dispatch<React.SetStateAction<number>>;
-  fixedPercentage: number;
-  setFixedPercentage: React.Dispatch<React.SetStateAction<number>>;
-  variablePercentage: number;
-  setVariablePercentage: React.Dispatch<React.SetStateAction<number>>;
-  savingsPercentage: number;
-  setSavingsPercentage: React.Dispatch<React.SetStateAction<number>>;
-  expenses: Expenses;
-  setExpenses: React.Dispatch<React.SetStateAction<Expenses>>;
-  savings: Saving[];
-  setSavings: React.Dispatch<React.SetStateAction<Saving[]>>;
+  ingreso: number;
+  setIngreso: React.Dispatch<React.SetStateAction<number>>;
+  extraIngreso: number;
+  setExtraIngreso: React.Dispatch<React.SetStateAction<number>>;
+  porcentajeFijo: number;
+  setPorcentajeFijo: React.Dispatch<React.SetStateAction<number>>;
+  porcentajeVariable: number;
+  setPorcentajeVariable: React.Dispatch<React.SetStateAction<number>>;
+  porcentajeAhorro: number;
+  setporcentajeAhorro: React.Dispatch<React.SetStateAction<number>>;
+  gastos: Gastos;
+  setGastos: React.Dispatch<React.SetStateAction<Gastos>>;
+  ahorros: Ahorro[];
+  setAhorros: React.Dispatch<React.SetStateAction<Ahorro[]>>;
 }
 
 const ExpenseContext = createContext<ExpenseContextProps | undefined>(undefined);
@@ -29,31 +29,31 @@ export const useExpenseContext = () => {
 };
 
 export const ExpenseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [income, setIncome] = useState<number>(0);
-  const [extraIncome, setExtraIncome] = useState<number>(0);
-  const [fixedPercentage, setFixedPercentage] = useState<number>(50);
-  const [variablePercentage, setVariablePercentage] = useState<number>(30);
-  const [savingsPercentage, setSavingsPercentage] = useState<number>(20);
-  const [expenses, setExpenses] = useState<Expenses>({ fixed: [], variable: [] });
-  const [savings, setSavings] = useState<Saving[]>([]);
+  const [ingreso, setIngreso] = useState<number>(0);
+  const [extraIngreso, setExtraIngreso] = useState<number>(0);
+  const [porcentajeFijo, setPorcentajeFijo] = useState<number>(50);
+  const [porcentajeVariable, setPorcentajeVariable] = useState<number>(30);
+  const [porcentajeAhorro, setporcentajeAhorro] = useState<number>(20);
+  const [gastos, setGastos] = useState<Gastos>({ fixed: [], variable: [] });
+  const [ahorros, setAhorros] = useState<Ahorro[]>([]);
 
   return (
     <ExpenseContext.Provider
       value={{
-        income,
-        setIncome,
-        extraIncome,
-        setExtraIncome,
-        fixedPercentage,
-        setFixedPercentage,
-        variablePercentage,
-        setVariablePercentage,
-        savingsPercentage,
-        setSavingsPercentage,
-        expenses,
-        setExpenses,
-        savings,
-        setSavings,
+        ingreso,
+        setIngreso,
+        extraIngreso,
+        setExtraIngreso,
+        porcentajeFijo,
+        setPorcentajeFijo,
+        porcentajeVariable,
+        setPorcentajeVariable,
+        porcentajeAhorro,
+        setporcentajeAhorro,
+        gastos,
+        setGastos,
+        ahorros,
+        setAhorros,
       }}
     >
       {children}

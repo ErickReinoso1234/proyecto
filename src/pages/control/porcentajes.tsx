@@ -5,21 +5,21 @@ import { message } from 'antd';
 const { Option } = Select;
 
 interface PorcentajesProps {
-  fixedPercentage: number;
-  setFixedPercentage: React.Dispatch<React.SetStateAction<number>>;
-  variablePercentage: number;
-  setVariablePercentage: React.Dispatch<React.SetStateAction<number>>;
-  savingsPercentage: number;
-  setSavingsPercentage: React.Dispatch<React.SetStateAction<number>>;
+  porcentajeFijo: number;
+  setPorcentajeFijo: React.Dispatch<React.SetStateAction<number>>;
+  porcentajeVariable: number;
+  setPorcentajeVariable: React.Dispatch<React.SetStateAction<number>>;
+  porcentajeAhorros: number;
+  setPorcentajeAhorros: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export function Porcentajes({
-  fixedPercentage,
-  setFixedPercentage,
-  variablePercentage,
-  setVariablePercentage,
-  savingsPercentage,
-  setSavingsPercentage,
+  porcentajeFijo,
+  setPorcentajeFijo,
+  porcentajeVariable,
+  setPorcentajeVariable,
+  porcentajeAhorros,
+  setPorcentajeAhorros,
 }: PorcentajesProps) {
   const handleFixedChange = (value: number) => {
     if (value < 30 || value > 50) {
@@ -55,16 +55,16 @@ export function Porcentajes({
     const remainingPercentage = 100 - value;
     switch (type) {
       case 'fixed':
-        setFixedPercentage(value);
-        setVariableAndSavingsPercentage(remainingPercentage, variablePercentage, savingsPercentage);
+        setPorcentajeFijo(value);
+        setVariableAndSavingsPercentage(remainingPercentage, porcentajeVariable, porcentajeAhorros);
         break;
       case 'variable':
-        setVariablePercentage(value);
-        setFixedAndSavingsPercentage(remainingPercentage, fixedPercentage, savingsPercentage);
+        setPorcentajeVariable(value);
+        setFixedAndSavingsPercentage(remainingPercentage, porcentajeFijo, porcentajeAhorros);
         break;
       case 'savings':
-        setSavingsPercentage(value);
-        setFixedAndVariablePercentage(remainingPercentage, fixedPercentage, variablePercentage);
+        setPorcentajeAhorros(value);
+        setFixedAndVariablePercentage(remainingPercentage, porcentajeFijo, porcentajeVariable);
         break;
       default:
         break;
@@ -73,40 +73,40 @@ export function Porcentajes({
 
   const setVariableAndSavingsPercentage = (remaining: number, variable: number, savings: number) => {
     if (remaining === 0) {
-      setVariablePercentage(0);
-      setSavingsPercentage(0);
+      setPorcentajeVariable(0);
+      setPorcentajeAhorros(0);
     } else if (remaining >= variable) {
-      setVariablePercentage(variable);
-      setSavingsPercentage(remaining - variable);
+      setPorcentajeVariable(variable);
+      setPorcentajeAhorros(remaining - variable);
     } else {
-      setVariablePercentage(remaining);
-      setSavingsPercentage(0);
+      setPorcentajeVariable(remaining);
+      setPorcentajeAhorros(0);
     }
   };
 
   const setFixedAndSavingsPercentage = (remaining: number, fixed: number, savings: number) => {
     if (remaining === 0) {
-      setFixedPercentage(0);
-      setSavingsPercentage(0);
+      setPorcentajeFijo(0);
+      setPorcentajeAhorros(0);
     } else if (remaining >= fixed) {
-      setFixedPercentage(fixed);
-      setSavingsPercentage(remaining - fixed);
+      setPorcentajeFijo(fixed);
+      setPorcentajeAhorros(remaining - fixed);
     } else {
-      setFixedPercentage(remaining);
-      setSavingsPercentage(0);
+      setPorcentajeFijo(remaining);
+      setPorcentajeAhorros(0);
     }
   };
 
   const setFixedAndVariablePercentage = (remaining: number, fixed: number, variable: number) => {
     if (remaining === 0) {
-      setFixedPercentage(0);
-      setVariablePercentage(0);
+      setPorcentajeFijo(0);
+      setPorcentajeVariable(0);
     } else if (remaining >= fixed) {
-      setFixedPercentage(fixed);
-      setVariablePercentage(remaining - fixed);
+      setPorcentajeFijo(fixed);
+      setPorcentajeVariable(remaining - fixed);
     } else {
-      setFixedPercentage(remaining);
-      setVariablePercentage(0);
+      setPorcentajeFijo(remaining);
+      setPorcentajeVariable(0);
     }
   };
 
@@ -115,7 +115,7 @@ export function Porcentajes({
       <h2>Configuración de Porcentajes</h2>
       <div style={{ marginBottom: '16px' }}>
         <label style={{ marginRight: '8px', color: '#000' }}>Gastos Fijos:</label>
-        <Select value={fixedPercentage} onChange={handleFixedChange} style={{ width: '200px' }}>
+        <Select value={porcentajeFijo} onChange={handleFixedChange} style={{ width: '200px' }}>
           <Option value={50}>50%</Option>
           <Option value={40}>40%</Option>
           <Option value={30}>30%</Option>
@@ -123,7 +123,7 @@ export function Porcentajes({
       </div>
       <div style={{ marginBottom: '16px' }}>
         <label style={{ marginRight: '8px', color: '#000' }}>Gastos Variables:</label>
-        <Select value={variablePercentage} onChange={handleVariableChange} style={{ width: '200px' }}>
+        <Select value={porcentajeVariable} onChange={handleVariableChange} style={{ width: '200px' }}>
           <Option value={30}>30%</Option>
           <Option value={20}>20%</Option>
           <Option value={10}>10%</Option>
@@ -131,7 +131,7 @@ export function Porcentajes({
       </div>
       <div style={{ marginBottom: '16px' }}>
         <label style={{ marginRight: '8px', color: '#000' }}>Ahorros:</label>
-        <Select value={savingsPercentage} onChange={handleSavingsChange} style={{ width: '200px' }}>
+        <Select value={porcentajeAhorros} onChange={handleSavingsChange} style={{ width: '200px' }}>
           <Option value={20}>20%</Option>
           <Option value={30}>30%</Option>
           <Option value={40}>40%</Option>

@@ -1,16 +1,16 @@
-export interface Expense {
+export interface Gasto {
   name: string;
   amount: number;
   date: string;
   type: 'Gasto Fijo' | 'Gasto Variable' | 'Ahorro';
 }
 
-export interface Expenses {
-  fixed: Expense[];
-  variable: Expense[];
+export interface Gastos {
+  fixed: Gasto[];
+  variable: Gasto[];
 }
 
-export interface Saving {
+export interface Ahorro {
   name: any;
   amount: number;
   date: string;

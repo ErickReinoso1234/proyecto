@@ -1,14 +1,14 @@
-import { Expense, Saving } from './types';
+import { Gasto, Ahorro } from './types';
 import { Table, Tag } from 'antd';
 
 interface HistorialProps {
-  expenses: Expense[];
-  savings: Saving[];
+  expenses: Gasto[];
+  ahorros: Ahorro[];
 }
 
-export function Historial({ expenses, savings }: HistorialProps) {
+export function Historial({ expenses, ahorros: savings }: HistorialProps) {
   // Función para determinar el tipo de costo (fijo, variable o ahorro)
-  const determineCostType = (item: Expense | Saving): string => {
+  const determineCostType = (item: Gasto | Ahorro): string => {
     if ('type' in item) {
       if (item.type === 'Gasto Fijo') {
         return 'Fijo';

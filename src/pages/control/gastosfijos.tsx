@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, message } from 'antd';
-import { Expenses } from './types';
+import { Gastos } from './types';
 import { HomeOutlined, ThunderboltOutlined, AlertOutlined, WifiOutlined, FireOutlined, PhoneOutlined } from '@ant-design/icons';
 import moment from 'moment-timezone';
 
 const { Option } = Select;
 
 interface GastosFijosProps {
-  setExpenses: React.Dispatch<React.SetStateAction<Expenses>>;
+  setGastos: React.Dispatch<React.SetStateAction<Gastos>>;
   remainingFixed: number;
 }
 
@@ -20,12 +20,12 @@ const fixedExpensesList = [
   { name: 'Teléfono', icon: <PhoneOutlined /> }
 ];
 
-export function GastosFijos({ setExpenses, remainingFixed }: GastosFijosProps) {
+export function GastosFijos({ setGastos, remainingFixed }: GastosFijosProps) {
   const [name, setName] = useState('');
   const [fixed, setFixed] = useState('');
   const [date, setDate] = useState('');
 
-  const handleAddFixedExpense = () => {
+  const controlGastosFijos = () => {
     const amount = parseFloat(fixed);
     if (amount > remainingFixed) {
       message.error('El gasto fijo excede el presupuesto permitido.');
@@ -40,7 +40,7 @@ export function GastosFijos({ setExpenses, remainingFixed }: GastosFijosProps) {
       return;
     }
 
-    setExpenses((prev) => ({
+    setGastos((prev) => ({
       ...prev,
       fixed: [...prev.fixed, { name, amount, date, type: 'Gasto Fijo'}],
       variable: prev.variable // Asegura que la variable se mantiene igual
@@ -50,7 +50,7 @@ export function GastosFijos({ setExpenses, remainingFixed }: GastosFijosProps) {
     setDate('');
   };
 
-  const handleSelectFixedExpense = (value: string) => {
+  const selectGastoFijo = (value: string) => {
     setName(value);
   };
 
@@ -62,7 +62,7 @@ export function GastosFijos({ setExpenses, remainingFixed }: GastosFijosProps) {
         <Select
           value={name}
           style={{ width: '200px' }}
-          onChange={handleSelectFixedExpense}
+          onChange={selectGastoFijo}
         >
           {fixedExpensesList.map((expense, index) => (
             <Option key={index} value={expense.name}>
@@ -79,7 +79,7 @@ export function GastosFijos({ setExpenses, remainingFixed }: GastosFijosProps) {
         <label style={{ marginRight: '8px', color: '#000' }}>Fecha:</label>
         <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} style={{ width: '200px' }} />
       </div>
-      <Button type="primary" onClick={handleAddFixedExpense}>Agregar Gasto Fijo</Button>
+      <Button type="primary" onClick={controlGastosFijos}>Agregar Gasto Fijo</Button>
       <p>Presupuesto restante para gastos fijos: {remainingFixed}</p>
     </div>
   );
