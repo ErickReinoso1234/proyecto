@@ -44,7 +44,7 @@ export function GastosVariables({ setGastos, remainingVariable }: GastosVariable
       setGastos((prev) => ({
         ...prev,
         fixed: prev.fixed , // Asegura que los gastos fijos se mantienen igual
-        variable: [...prev.variable, { name, amount, date, type: 'Gasto Variable'}, response.data],
+        variable: [...prev.variable, response.data],
       }));
       setName('');
       setVariable('');
@@ -74,7 +74,7 @@ export function GastosVariables({ setGastos, remainingVariable }: GastosVariable
         <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} style={{ width: '200px' }} />
       </div>
       <Button type="primary" onClick={addVariableExpense}>Agregar Gasto Variable</Button>
-      <p>Presupuesto restante para gastos variables: {remainingVariable}</p>
+      <p>Presupuesto restante para gastos variables: ${remainingVariable.toFixed(2)}</p>
     </div>
   );
 }

@@ -75,7 +75,7 @@ export function Ahorros({ remainingSavings, setAhorros }: AhorrosProps) {
         <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </div>
       <Button type="primary" onClick={controlAhorros}>Agregar Ahorro</Button>
-      <p>Presupuesto restante para ahorros: {remainingSavings}</p>
+      <p>Presupuesto restante para ahorros: ${remainingSavings.toFixed(2)}</p>
     </div>
   );
 }

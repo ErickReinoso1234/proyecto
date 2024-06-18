@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col} from 'antd';
 import { useExpenseContext } from './expensecontext';
 import { Porcentajes } from './porcentajes';
 import { GastosFijos } from './gastosfijos';
@@ -7,7 +6,6 @@ import { GastosVariables } from './gastosvariables';
 import Summary from './summary';
 import { Ahorros } from './ahorros';
 import { Ingreso } from './ingreso';
-import { Historial } from './historial';
 
 export function Gastos() {
   const {
@@ -26,20 +24,6 @@ export function Gastos() {
     setGastos,
     setAhorros,
   } = useExpenseContext();
-
-  const [showHistory, setShowHistory] = useState<boolean>(false);
-
-  const toggleHistory = () => {
-    setShowHistory(!showHistory);
-  };
-
-  const toggleStyles = {
-    background: showHistory ? '#1890ff' : '#f5222d',
-    color: '#fff',
-    border: 'none',
-    marginTop: '16px',
-    width: '100%',
-  };
 
   const columnStyles = {
     backgroundColor: '#f0f2f5',
@@ -95,20 +79,10 @@ export function Gastos() {
             </Col>
           </Row>
         </Col>
-        <Col span={24}>
-          <Button style={toggleStyles} onClick={toggleHistory}>
-            {showHistory ? 'Ocultar Historial' : 'Ver Historial'}
-          </Button>
-        </Col>
         <Col span={24} style={columnStyles}>
           <p>Ingreso Mensual: {ingreso}</p>
           <p>Ingreso Extra: {extraIngreso}</p>
         </Col>
-        {showHistory && (
-          <Col span={24} style={columnStyles}>
-            <Historial />
-          </Col>
-        )}
       </Row>
     </div>
   );
