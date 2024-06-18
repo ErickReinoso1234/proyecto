@@ -15,7 +15,7 @@ function FormNombres ({ formData, handleInputChange, handleCloseForm, handleShow
     const [cedulaError, setCedulaError] = useState ('');
 
     
-    const handleSubmitNombres = (event: React.FormEvent<HTMLFormElement>)=> {
+    const handleSubmitNombres = async (event: React.FormEvent<HTMLFormElement>)=> {
       event.preventDefault();
 
       if (formData.nombres === "" || formData.apellidos === "" || formData.cedula === "" || formData.usuario === "") {
@@ -30,11 +30,43 @@ function FormNombres ({ formData, handleInputChange, handleCloseForm, handleShow
         return;
       } else {
         setCedulaError("");
-        handleShowMenu();
-        setNombresValidos(false);
-        setTelefonoValidado(true);
+
+        try {
+          const response = await fetch('http://localhost:4000/usuarios/verificar_cedula', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cedula: formData.cedula}),
+          });
+          const data = await response.json();
+        
+          if (data.error) {
+              setCedulaError(data.error);
+          } else {
+            try {
+              const response = await fetch('http://localhost:4000/usuarios/verificar_usuario', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ usuario: formData.usuario}),
+              });
+              const data = await response.json();
+
+              if (data.error) {
+                setUsuarioError(data.error);
+              } else {
+                handleShowMenu();
+                setNombresValidos(true);
+                setTelefonoValidado(true);
+              }
+            } catch (error) {
+              setUsuarioError(`Ocurrió un error al verificar la existencia del nombre de usuario : ${error}`)
+            }
+          }
+        } catch (error) {
+          setCedulaError(`Ocurrió un error al verificar la existencia del numero de cédula : ${error}`);
+        }
+        
       }
-    }
+    };
 
 
 

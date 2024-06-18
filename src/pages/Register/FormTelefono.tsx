@@ -13,7 +13,7 @@ interface FormTelefonoProps {
 function FormTelefono ({formData, handleInputChange, handleCloseForm, handleShowValidacionTelefonoForm}: FormTelefonoProps) {
     const [telefonoError, setTelefonoError] = useState('');
     
-    const handleSubmitTelefono = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmitTelefono = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (!/^\d{9}$/.test(formData.telefono)) {
@@ -24,11 +24,28 @@ function FormTelefono ({formData, handleInputChange, handleCloseForm, handleShow
           }
 
         if (!formData.aceptoContacto) {
-          setTelefonoError("Debes aceptar que te contacten por WhatsApp y/o SMS");
+          setTelefonoError("Acepta los terminos de contacto por WhatsApp y/o SMS");
             return;
           } else {
-            setTelefonoError("");
-            handleShowValidacionTelefonoForm();
+            try {
+              const responseEnviarCodigo = await fetch('http://localhost:4000/usuarios/enviar_codigo_telefono',{
+                method:'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({telefono: formData.telefono}),
+              });
+              if (!responseEnviarCodigo.ok) {
+                throw new Error('No se pudo establecer conexión con el servidor o el servidor retornó un error.');
+              }
+              const dataEnviarCodigo = await responseEnviarCodigo.json();
+              if (dataEnviarCodigo.success){
+                setTelefonoError("");
+                handleShowValidacionTelefonoForm();
+              }else {
+                setTelefonoError("Error al enviar el codigo de verificacion. Intentalo más tarde.")
+              }
+            } catch (error) {
+              setTelefonoError("Error al enviar codigo de verificacion al numero telefonico"+ error);
+            }
           }
     }
     

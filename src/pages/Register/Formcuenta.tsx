@@ -139,12 +139,12 @@ function Formcuenta() {
           <img src="https://th.bing.com/th/id/OIG2.Ca4kbNPZdUP37sJLUw5t?w=270&h=270&c=6&r=0&o=5&pid=ImgGn" className="img-thumbnail mb-4" alt="Logo" />
         </div>
         <div className="col-4 w-100 ">
-          {formState.showValidationTelefonoForm && <FormTelefonoVal handleShowMenu={handleShowMenu} />}
-          {formState.showValidacionEmailForm && <FormEmailVal handleShowMenu={handleShowMenu} /> }
+          {formState.showValidationTelefonoForm && <FormTelefonoVal formData={formData} handleShowMenu={handleShowMenu} />}
+          {formState.showValidacionEmailForm && <FormEmailVal formData={formData} handleShowMenu={handleShowMenu} /> }
           {formState.showEmailForm && <FormEmail formData={formData} handleInputChange={handleInputChange} handleCloseForm = {handleCloseForm} handleShowValidacionEmailForm = {handleShowValidacionEmailForm} />}
           {formState.showNombresForm && <FormNombres formData={formData} handleInputChange={handleInputChange} handleCloseForm = {handleCloseForm} handleShowMenu={handleShowMenu} setNombresValidos={setNombresValidos} setTelefonoValidado={setTelefonoValidado} />}
           {formState.showTelefonoForm && <FormTelefono formData={formData} handleInputChange={handleInputChange} handleCloseForm = {handleCloseForm} handleShowValidacionTelefonoForm={handleShowValidacionTelefonoForm} />}
-          {formState.showContraseñaForm && <FormContraseña formData={formData} handleInputChange={handleInputChange} handleCloseForm = {handleCloseForm} handleShowMenu={handleShowMenu} setContraseñaValida={setContraseñaValida} />}
+          {formState.showContraseñaForm && <FormContraseña formData={formData} handleInputChange={handleInputChange} handleCloseForm = {handleCloseForm} setContraseñaValida={setContraseñaValida} />}
           {!formState.showEmailForm && !formState.showNombresForm && !formState.showTelefonoForm && !formState.showContraseñaForm && !formState.showValidacionEmailForm && !formState.showValidationTelefonoForm &&  (
             <ul className="list-unstyled">
               <div className='row'>                              
