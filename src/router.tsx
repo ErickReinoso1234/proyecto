@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import AhorroApp from "./pages/ahorro/ahorros";
 import PaginaPrincipal from "./pages/paginaPrincipal/paginaPrincipal";
 import Error404Page from "./pages/error";
 import Formcuenta from "./pages/Register/Formcuenta";
@@ -23,7 +22,6 @@ export const AppRouter: React.FC<AppRouterProps> = ({ abrirSidebar: isSidebarOpe
       <Route path="/" element={<PaginaPrincipal />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/perfil" element={<PerfilUsuario />} />
-      <Route path="/ahorros" element={<AhorroApp />} />
       <Route path="/historial" element={<Historial />} />
       <Route path="/inicio" element={<InicioApp />} />
       <Route path="/login" element={<LoginForm />} />

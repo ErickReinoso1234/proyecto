@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Input, Button, message } from 'antd';
+import axios from 'axios';
+import moment from 'moment-timezone';
 import { useExpenseContext } from './expensecontext';
 import { Ahorro } from './types';
-import moment from 'moment-timezone';
 
 interface AhorrosProps {
   remainingSavings: number;
@@ -14,8 +15,8 @@ export function Ahorros({ remainingSavings, setAhorros }: AhorrosProps) {
   const [name, setName] = useState('');
   const [monto, setMonto] = useState('');
   const [date, setDate] = useState('');
-
-  const controlAhorros = () => {
+  // Función para manejar el evento de agregar ahorro
+  const controlAhorros = async () => {
     const savingAmount = parseFloat(monto);
     const totalSavings = ahorros.reduce((sum, ahorro) => sum + ahorro.amount, 0);
     const maxSavings = (ingreso * porcentajeAhorro) / 100;
@@ -34,10 +35,28 @@ export function Ahorros({ remainingSavings, setAhorros }: AhorrosProps) {
       return;
     }
 
-    setAhorros((prev) => [...prev, { name, amount: savingAmount, date, type: 'Ahorro' }]);
-    setName('');
-    setMonto('');
-    setDate('');
+    try {
+      // Realizar la solicitud POST para agregar un nuevo ahorro
+      const response = await axios.post('http://localhost:4000/ahorros', {
+        name,
+        amount: savingAmount,
+        date,
+        type: 'Ahorro',
+      });
+
+      // Actualizar el estado local con el nuevo ahorro agregado
+      setAhorros((prevAhorros) => [...prevAhorros, response.data]);
+
+      // Limpiar los campos del formulario
+      setName('');
+      setMonto('');
+      setDate('');
+
+      message.success('Ahorro agregado correctamente');
+    } catch (error) {
+      console.error('Error al agregar ahorro:', error);
+      message.error('Error al agregar ahorro');
+    }
   };
 
   return (

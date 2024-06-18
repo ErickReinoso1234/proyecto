@@ -22,7 +22,7 @@ export function Gastos() {
     setExtraIngreso,
     setPorcentajeFijo,
     setPorcentajeVariable,
-    setporcentajeAhorro,
+    setPorcentajeAhorro,
     setGastos,
     setAhorros,
   } = useExpenseContext();
@@ -69,7 +69,7 @@ export function Gastos() {
             porcentajeVariable={porcentajeVariable}
             setPorcentajeVariable={setPorcentajeVariable}
             porcentajeAhorros={porcentajeAhorro}
-            setPorcentajeAhorros={setporcentajeAhorro}
+            setPorcentajeAhorros={setPorcentajeAhorro}
           />
         </Col>
         <Col span={12} style={columnStyles}>
@@ -106,7 +106,7 @@ export function Gastos() {
         </Col>
         {showHistory && (
           <Col span={24} style={columnStyles}>
-            <Historial expenses={gastos.fixed.concat(gastos.variable)} ahorros={ahorros} />
+            <Historial />
           </Col>
         )}
       </Row>

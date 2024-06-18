@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button} from 'antd';
-import moment from 'moment-timezone';
+import axios from 'axios';
+import { Input, Button, message } from 'antd';
 import { HourglassOutlined } from '@ant-design/icons';
+import moment from 'moment';
 
 interface IngresoProps {
   setIngreso: React.Dispatch<React.SetStateAction<number>>;
@@ -28,15 +29,32 @@ export function Ingreso({ setIngreso, setExtraIngreso }: IngresoProps) {
     }
   }, []);
 
-  const manejoIngresos = () => {
-    setIngreso(parseFloat(ingreso));
-    setIngresoState('');
-    localStorage.setItem('lastIncomeDate', moment().toISOString()); // Guardar la fecha del último ingreso mensual
-    setIngresoMensualActivo(false); // Bloquear el ingreso mensual después del primer ingreso
+  const manejoIngresos = async () => {
+    const amount = parseFloat(ingreso);
+    if (isNaN(amount)) {
+      message.error('Por favor ingresa un monto válido para el ingreso mensual.');
+      return;
+    }
+
+    try {
+      await axios.post('http://localhost:4000/ingresos', { amount });
+      setIngreso(amount);
+      setIngresoState('');
+      localStorage.setItem('lastIncomeDate', moment().toISOString()); // Guardar la fecha del último ingreso mensual
+      setIngresoMensualActivo(false); // Bloquear el ingreso mensual después del primer ingreso
+    } catch (error) {
+      console.error('Error adding income:', error);
+      message.error('Error al establecer el ingreso mensual.');
+    }
   };
 
   const manejoIngresosExtras = () => {
-    setExtraIngreso(prevExtra => prevExtra + parseFloat(extraIngreso));
+    const amount = parseFloat(extraIngreso);
+    if (isNaN(amount)) {
+      message.error('Por favor ingresa un monto válido para el ingreso extra.');
+      return;
+    }
+    setExtraIngreso(prevExtra => prevExtra + amount);
     setExtraIngresos('');
   };
 

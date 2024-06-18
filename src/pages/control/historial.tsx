@@ -1,39 +1,36 @@
-import { Gasto, Ahorro } from './types';
-import { Table, Tag } from 'antd';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Table, Tag, message } from 'antd';
+import moment from 'moment';
 
-interface HistorialProps {
-  expenses: Gasto[];
-  ahorros: Ahorro[];
+interface HistorialItem {
+  id: number;
+  name: string;
+  amount: number;
+  date: string;
+  type: string; // 'Gasto Fijo', 'Gasto Variable' o 'Ahorro'
 }
 
-export function Historial({ expenses, ahorros: savings }: HistorialProps) {
-  // Función para determinar el tipo de costo (fijo, variable o ahorro)
-  const determineCostType = (item: Gasto | Ahorro): string => {
-    if ('type' in item) {
-      if (item.type === 'Gasto Fijo') {
-        return 'Fijo';
-      } else if (item.type === 'Gasto Variable') {
-        return 'Variable';
-      } else if (item.type === 'Ahorro') {
-        return 'Ahorro';
-      }
-    }
-    return ''; // Manejo de caso base si no hay tipo definido
-  };
+export function Historial() {
+  const [historial, setHistorial] = useState<HistorialItem[]>([]);
 
-  // Mapear los gastos fijos y variables al historial con sus tipos correspondientes
-  const enrichedData = [
-    ...expenses.map((expense) => ({
-      ...expense,
-      costType: determineCostType(expense), // Determinar el tipo de costo
-      id: `${expense.name}-${expense.amount}-${expense.date}`, // Generar un identificador único basado en nombre, monto y fecha
-    })),
-    ...savings.map((saving) => ({
-      ...saving,
-      costType: determineCostType(saving), // Determinar el tipo de costo
-      id: `${saving.name}-${saving.amount}-${saving.date}`, // Generar un identificador único basado en nombre, monto y fecha
-    })),
-  ];
+  useEffect(() => {
+    fetchHistorial();
+  }, []);
+
+  const fetchHistorial = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/historial');
+      const data = response.data.map((item: HistorialItem, index: number) => ({
+        ...item,
+        uniqueId: `${item.type}-${item.id}-${index}` // Crear un id único
+      }));
+      setHistorial(data);
+    } catch (error) {
+      console.error('Error fetching historial:', error);
+      message.error('Error al obtener el historial.'); // Muestra un mensaje de error al usuario
+    }
+  };
 
   // Columnas de la tabla
   const columns = [
@@ -46,12 +43,18 @@ export function Historial({ expenses, ahorros: savings }: HistorialProps) {
       title: 'Monto',
       dataIndex: 'amount',
       key: 'amount',
-      render: (amount: number) => `$ ${amount.toFixed(2)}`,
+      render: (amount: number) => {
+        if (typeof amount !== 'number' || isNaN(amount)) {
+          return 'N/A';
+        }
+        return `$ ${amount.toFixed(2)}`;
+      },
     },
     {
       title: 'Fecha',
       dataIndex: 'date',
       key: 'date',
+      render: (date: string) => moment(date).format('DD/MM/YYYY'), 
     },
     {
       title: 'Tipo',
@@ -66,7 +69,7 @@ export function Historial({ expenses, ahorros: savings }: HistorialProps) {
   return (
     <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)' }}>
       <h2>Historial</h2>
-      <Table columns={columns} dataSource={enrichedData} rowKey="id" />
+      <Table columns={columns} dataSource={historial} rowKey="uniqueId" />
     </div>
   );
 }

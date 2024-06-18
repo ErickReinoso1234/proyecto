@@ -11,7 +11,7 @@ interface ExpenseContextProps {
   porcentajeVariable: number;
   setPorcentajeVariable: React.Dispatch<React.SetStateAction<number>>;
   porcentajeAhorro: number;
-  setporcentajeAhorro: React.Dispatch<React.SetStateAction<number>>;
+  setPorcentajeAhorro: React.Dispatch<React.SetStateAction<number>>;
   gastos: Gastos;
   setGastos: React.Dispatch<React.SetStateAction<Gastos>>;
   ahorros: Ahorro[];
@@ -33,7 +33,7 @@ export const ExpenseProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [extraIngreso, setExtraIngreso] = useState<number>(0);
   const [porcentajeFijo, setPorcentajeFijo] = useState<number>(50);
   const [porcentajeVariable, setPorcentajeVariable] = useState<number>(30);
-  const [porcentajeAhorro, setporcentajeAhorro] = useState<number>(20);
+  const [porcentajeAhorro, setPorcentajeAhorro] = useState<number>(20);
   const [gastos, setGastos] = useState<Gastos>({ fixed: [], variable: [] });
   const [ahorros, setAhorros] = useState<Ahorro[]>([]);
 
@@ -49,7 +49,7 @@ export const ExpenseProvider: React.FC<{ children: React.ReactNode }> = ({ child
         porcentajeVariable,
         setPorcentajeVariable,
         porcentajeAhorro,
-        setporcentajeAhorro,
+        setPorcentajeAhorro,
         gastos,
         setGastos,
         ahorros,
