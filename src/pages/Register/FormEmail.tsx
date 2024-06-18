@@ -18,7 +18,7 @@ function FormEmail({ formData, handleInputChange, handleCloseForm, handleShowVal
     return emailRegex.test(email);
   };
 
-  const handleSubmitEmail = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitEmail = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validarEmail(formData.email)) {
       setEmailError('El correo electrónico no es válido');
@@ -31,10 +31,44 @@ function FormEmail({ formData, handleInputChange, handleCloseForm, handleShowVal
       return;
     } else {
       setEmailError('');
-      handleShowValidacionEmailForm();
-    }
-  };
+      
+      }
 
+      try {
+        const response = await fetch("http://localhost:4000/usuarios/verificar_correo", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: formData.email}),
+        });
+
+        const data = await response.json();
+        
+        if (data.error) {
+          setEmailError("Este correo ya esta registrado");
+          return;
+        }else {
+          const responseEnviarCodigo = await fetch("http://localhost:4000/usuarios/enviar_codigo_email",{
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: formData.email}),
+          });
+          const dataEnviarCodigo = await responseEnviarCodigo.json();
+          if(dataEnviarCodigo.success) {
+            handleShowValidacionEmailForm();
+            setEmailError("");
+          } else {
+            setEmailError('Error al enviar el código de verificación. Inténtalo de nuevo más tarde.');
+          }
+        }
+      } catch (error) {
+        setEmailError("Error al verificar el correo:" + error)
+      }
+  };
+      
   return (
     <form onSubmit={handleSubmitEmail}>
       <div className="form-group">        
