@@ -11,7 +11,9 @@ export interface Gastos {
 }
 
 export interface Ahorro {
-  name: any;
+  id: number; 
+  name: string;
   amount: number;
   date: string;
+  type: string;
 }
