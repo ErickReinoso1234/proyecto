@@ -24,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
       key: '1', label: 'Inicio', icon: <HomeOutlined />, link: '/inicio',
     },
     {
-      key: '2', label: 'Ahorros', icon: <FundOutlined />, link: '/control',
+      key: '2', label: 'Gastos', icon: <FundOutlined />, link: '/control',
     },
     {
       key: '3', label: 'Dashboard', icon: <DashboardOutlined />, link: '/dashboard',
@@ -39,14 +39,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
       children: [
         {
           key: '6', label: 'PDF 1', link: '/pdf1',
-          icon: undefined,
-        },
-        {
-          key: '7', label: 'PDF 2', link: '/pdf2',
-          icon: undefined,
-        },
-        {
-          key: '8', label: 'PDF 3', link: '/pdf3',
           icon: undefined,
         },
       ],
