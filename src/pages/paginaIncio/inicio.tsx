@@ -15,7 +15,7 @@ const InicioApp: React.FC = () => {
     <>
       <div  className="container mt-5" style={{ textAlign: 'center', color: 'white' }}>
         <div style={{ marginBottom: '50px' }}>
-          <h1>¡Bienvenido a tu aplicación de control de gastos!</h1>
+          <h1>¡Bienvenido a tu aplicación de control de Gastos!</h1>
           <p>
             Somos una plataforma diseñada para ayudarte a administrar y controlar tus gastos de manera eficiente.
             Registra tus ingresos y gastos, establece presupuestos, y mantén un seguimiento de tus finanzas personales de manera sencilla.
