@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Tag, message } from 'antd';
 import moment from 'moment';
+import PdfGenerator from '../pdf/PdfGenerator';
+
+
 
 interface HistorialItem {
   id: number;
@@ -32,7 +35,6 @@ export function Historial() {
     }
   };
 
-  // Columnas de la tabla
   const columns = [
     {
       title: 'Nombre',
@@ -67,9 +69,15 @@ export function Historial() {
   ];
 
   return (
-    <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)' }}>
+    <div style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '8px', boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)' }}>
       <h2>Historial</h2>
-      <Table columns={columns} dataSource={historial} rowKey="uniqueId" />
+    
+      <Table
+        columns={columns}
+        dataSource={historial}
+        rowKey="uniqueId"
+      />
+      <PdfGenerator historial={historial} />
     </div>
   );
 }
