@@ -1,86 +1,85 @@
-import { AreaChart } from '@tremor/react';
+// MyChartComponent.tsx
+import React, { useEffect } from 'react';
+import ApexCharts from 'apexcharts';
 
-const chartdata = [
-  {
-    date: 'Jan 22',
-    SemiAnalysis: 2890,
-    'The Pragmatic Engineer': 2338,
-  },
-  {
-    date: 'Feb 22',
-    SemiAnalysis: 2756,
-    'The Pragmatic Engineer': 2103,
-  },
-  {
-    date: 'Mar 22',
-    SemiAnalysis: 3322,
-    'The Pragmatic Engineer': 2194,
-  },
-  {
-    date: 'Apr 22',
-    SemiAnalysis: 3470,
-    'The Pragmatic Engineer': 2108,
-  },
-  {
-    date: 'May 22',
-    SemiAnalysis: 3475,
-    'The Pragmatic Engineer': 1812,
-  },
-  {
-    date: 'Jun 22',
-    SemiAnalysis: 3129,
-    'The Pragmatic Engineer': 1726,
-  },
-  {
-    date: 'Jul 22',
-    SemiAnalysis: 3490,
-    'The Pragmatic Engineer': 1982,
-  },
-  {
-    date: 'Aug 22',
-    SemiAnalysis: 2903,
-    'The Pragmatic Engineer': 2012,
-  },
-  {
-    date: 'Sep 22',
-    SemiAnalysis: 2643,
-    'The Pragmatic Engineer': 2342,
-  },
-  {
-    date: 'Oct 22',
-    SemiAnalysis: 2837,
-    'The Pragmatic Engineer': 2473,
-  },
-  {
-    date: 'Nov 22',
-    SemiAnalysis: 2954,
-    'The Pragmatic Engineer': 3848,
-  },
-  {
-    date: 'Dec 22',
-    SemiAnalysis: 3239,
-    'The Pragmatic Engineer': 3736,
-  },
-];
+const MyChartComponent: React.FC = () => {
 
-const valueFormatter = function (number: number | bigint) {
-  return '$ ' + new Intl.NumberFormat('us').format(number).toString();
+  const generateDayWiseTimeSeries = (baseval: number, count: number, yrange: { min: number, max: number }) => {
+    let i = 0;
+    const series = [];
+    while (i < count) {
+      const x = baseval;
+      const y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+      series.push([x, y]);
+      baseval += 86400000;
+      i++;
+    }
+    return series;
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const options = {
+    series: [
+      {
+        name: 'South',
+        data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, { min: 10, max: 60 })
+      },
+      {
+        name: 'North',
+        data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, { min: 10, max: 20 })
+      },
+      {
+        name: 'Central',
+        data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, { min: 10, max: 15 })
+      }
+    ],
+    chart: {
+      type: 'area',
+      height: 350,
+      stacked: true,
+      events: {
+        selection: function (_chart: any, e: any) {
+          console.log(new Date(e.xaxis.min))
+        }
+      },
+    },
+    colors: ['#008FFB', '#00E396', '#CED4DC'],
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'monotoneCubic'
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        opacityFrom: 0.6,
+        opacityTo: 0.8,
+      }
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'left'
+    },
+    xaxis: {
+      type: 'datetime'
+    },
+  };
+
+  useEffect(() => {
+    const chart = new ApexCharts(document.querySelector("#donut-chart")!, options);
+    chart.render();
+
+    return () => {
+      chart.destroy();
+    };
+  }, [options]);
+
+  return (
+    <div id="#donut-chart">
+    </div>
+  );
 };
 
-export function AreaChartUsageExample() {
-  return (
-    <>
-      <h3 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">Newsletter Revenue</h3>
-      <p className="text-tremor-metric text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">$34,567</p>
-      <AreaChart
-        className="mt-4 h-72"
-        data={chartdata}
-        index="date"
-        yAxisWidth={65}
-        categories={['SemiAnalysis', 'The Pragmatic Engineer']}
-        colors={['indigo', 'cyan']}
-        valueFormatter={valueFormatter}
-      />
-    </>
-  );
-}
+export default MyChartComponent;
