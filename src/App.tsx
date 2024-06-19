@@ -6,6 +6,7 @@ import Sidebar from './pages/sidebar';
 import Footer from './pages/footer/footer';
 import { ExpenseProvider } from './pages/control/expensecontext';
 import moment from 'moment';
+import { UserProvider } from './states/usuarioState';
 
 moment.tz.setDefault('America/Guayaquil');
 
@@ -33,18 +34,20 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <Navbar barraLateral={controlSidebar} handleCerrarSesion={handleCerrarSesion} />
-        <div style={{ display: 'flex', flex: 1 }}>
-          <Sidebar isOpen={abrirSidebar} />
-          <div style={{ flex: 1, padding: '20px' }}>
-          <ExpenseProvider>
-            <AppRouter abrirSidebar={false} />
-          </ExpenseProvider>
+      <UserProvider>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Navbar barraLateral={controlSidebar} handleCerrarSesion={handleCerrarSesion} />
+          <div style={{ display: 'flex', flex: 1 }}>
+            <Sidebar isOpen={abrirSidebar} />
+            <div style={{ flex: 1, padding: '20px' }}>
+              <ExpenseProvider>
+                <AppRouter abrirSidebar={false} />
+              </ExpenseProvider>
+            </div>
           </div>
+          {window.location.pathname === '/inicio' && <Footer />}
         </div>
-        {window.location.pathname === '/inicio' && <Footer />} 
-      </div>
+      </UserProvider>
     </BrowserRouter>
   );
 };
