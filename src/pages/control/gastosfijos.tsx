@@ -103,7 +103,7 @@ export function GastosFijos({ setGastos, remainingFixed }: GastosFijosProps) {
         <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} style={{ width: '200px' }} />
       </div>
       <Button type="primary" onClick={addFixedExpense}>Agregar Gasto Fijo</Button>
-      <p>Presupuesto restante para gastos fijos: {remainingFixed}</p>
+      <p>Presupuesto restante para gastos fijos: ${remainingFixed.toFixed(2)}</p>
     </div>
   );
 }

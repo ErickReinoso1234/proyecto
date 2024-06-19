@@ -3,12 +3,12 @@ import { Route, Routes } from "react-router-dom";
 import PaginaPrincipal from "./pages/paginaPrincipal/paginaPrincipal";
 import Error404Page from "./pages/error";
 import Formcuenta from "./pages/Register/Formcuenta";
-import Historial from "./pages/historial";
 import PerfilUsuario from "./pages/perfilUsuario/perfil";
 import LoginForm from "./pages/login";
 import InicioApp from "./pages/paginaIncio/inicio";
 import Dashboard from "./pages/dashboard/dashboards";
 import { Gastos } from "./pages/control/controlgasto";
+import { Historial } from "./pages/historial";
 
 
 interface AppRouterProps {
